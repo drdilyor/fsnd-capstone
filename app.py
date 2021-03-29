@@ -9,7 +9,7 @@ def create_app(test_config=None):
   CORS(app)
   @app.route('/')
   def index():
-      return {'message', 'hello world'}
+      return {'message': 'hello world'}
 
   return app
 
