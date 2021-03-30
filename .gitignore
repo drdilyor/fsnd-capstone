@@ -1,4 +1,4 @@
-*.py
+*.py[oc]
 **/__pycache__
 venv/
 
