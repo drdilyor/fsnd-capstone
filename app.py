@@ -18,7 +18,47 @@ def create_app():
     def test_auth(payload):
         return {'message': 'granted', 'content': payload}
 
+    @app.errorhandler(AuthError)
+    def auth_error(e: AuthError):
+        return {
+                   'success': False,
+                   'error': e.error,
+               }, e.status_code
+
+    @app.errorhandler(400)
+    def bad_request(_error):
+        return {
+                   'success': False,
+                   'error': 400,
+                   'message': 'bad request',
+               }, 400
+
+    @app.errorhandler(404)
+    def not_found(_error):
+        return {
+                   'success': False,
+                   'error': 404,
+                   'message': 'not found',
+               }, 404
+
+    @app.errorhandler(422)
+    def unprocessable(_error):
+        return {
+                   'success': False,
+                   'error': 422,
+                   'message': 'unprocessable',
+               }, 422
+
+    @app.errorhandler(500)
+    def internal_server_error(_error):
+        return {
+                   'success': False,
+                   'error': 500,
+                   'message': 'internal server error',
+               }, 500
+
     return app
+
 
 APP = create_app()
 
