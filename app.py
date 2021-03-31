@@ -92,6 +92,14 @@ def create_app():
                    'message': 'bad request',
                }, 400
 
+    @app.errorhandler(403)
+    def not_found(_error):
+        return {
+                   'success': False,
+                   'error': 403,
+                   'message': 'forbidden',
+               }, 403
+
     @app.errorhandler(404)
     def not_found(_error):
         return {
