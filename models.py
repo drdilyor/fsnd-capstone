@@ -3,6 +3,7 @@ from datetime import date
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, ForeignKey, Date
+from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 default_db_path = 'sqlite:///db.sqlite3'
@@ -18,18 +19,15 @@ class DbMethods:
     def insert(self):
         db.session.add(self)
         db.session.commit()
-        db.session.close()
         return self
 
     def update(self):  # noqa
         db.session.commit()
-        db.session.close()
         return self
 
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-        db.session.close()
         return self
 
 
@@ -37,6 +35,8 @@ class Movie(DbMethods, db.Model):
     id = Column(Integer, primary_key=True)
     title = Column(String(80))
     release_date = Column(Date)
+
+    actors = relationship('Actor', backref='movie', lazy=True)
 
     def __init__(self, title: str, release_date: date): # noqa
         self.title = title
@@ -55,17 +55,24 @@ class Movie(DbMethods, db.Model):
             release_date=self.release_date.isoformat(),
         )
 
+    def format_long(self):
+        return {**self.format(), **dict(
+            actors=[a.format() for a in self.actors]
+        )}
+
 
 class Actor(DbMethods, db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     age = Column(Integer)
     gender = Column(Integer)
+    movie_id = Column(Integer, ForeignKey('movie.id'), nullable=True)
 
-    def __init__(self, name: str, age: int, gender: int): # noqa
+    def __init__(self, name: str, age: int, gender: int, movie_id: int): # noqa
         self.name = name
         self.age = age
         self.gender = gender
+        self.movie_id = movie_id
 
     def __str__(self):
         return f"{self.__class__.__name__} {self.id} {self.name}"
@@ -83,4 +90,5 @@ class Actor(DbMethods, db.Model):
             name=self.name,
             age=self.age,
             gender=self.gender,
+            movie_id=self.movie_id,
         )
