@@ -2,12 +2,14 @@ from flask import Flask, request, abort
 from flask_cors import CORS
 
 from auth import requires_auth, AuthError
+from models import setup_db, Actor, Movie
 
 
 def create_app():
     # create and configure the app
     app = Flask(__name__)
     CORS(app)
+    setup_db(app)
 
     @app.route('/')
     def index():
@@ -21,12 +23,19 @@ def create_app():
     @app.route('/actors')
     @requires_auth('read:actor')
     def get_actors(_p):
-        return {'message': 'not implemented'}, 500
+        """No pagination"""
+        return {
+            'success': True,
+            'actors': [a.format() for a in Actor.query.all()]
+        }
 
     @app.route('/actors/<int:pk>')
     @requires_auth('read:actor')
     def get_actor(_p, pk: int):
-        return {'message': 'not implemented'}, 500
+        return {
+            'success': True,
+            'actor': (Actor.query.get(pk) or abort(404)).format(),
+        }
 
     @app.route('/actors', methods=['POST'])
     @requires_auth('add:actor')
