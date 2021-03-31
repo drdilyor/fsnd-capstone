@@ -117,7 +117,7 @@ class CastingAssistantTest(MyTestCase):
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['actor']['title'], a.title)
+        self.assertEqual(data['actor']['name'], a.name)
 
     def test_get_actor_404(self):
         aid = 999
