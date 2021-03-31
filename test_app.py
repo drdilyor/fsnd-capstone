@@ -13,8 +13,7 @@ from models import setup_db, db, Actor, Movie
 class MyTestCase(unittest.TestCase):
     jwt: str
     app: Flask = None
-    client: FlaskClient = None
-    database_name = "trivia_test"
+    database_name = "fsnd_capstone_test"
     database_path = "postgresql://postgres:postgres@localhost:5432/{}".format(database_name)
     db: SQLAlchemy = None
 
@@ -25,8 +24,8 @@ class MyTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         if MyTestCase.app is None:
             MyTestCase.app = create_app()
-        if MyTestCase.client is None:
-            MyTestCase.client = self.app.test_client()
+        # Every test case uses its own client
+        MyTestCase.client = self.app.test_client()
         if MyTestCase.db is None:
             setup_db(self.app, self.database_path)
             MyTestCase.db = db
@@ -275,3 +274,7 @@ class ExecutiveProducerTest(MyTestCase):
 
     def test_patch_movie_404(self):
         CastingDirectorTest.test_patch_movie_404(self)  # noqa
+
+
+if __name__ == '__main__':
+    unittest.main()
