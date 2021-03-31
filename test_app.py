@@ -13,22 +13,21 @@ from models import setup_db, db, Actor, Movie
 class MyTestCase(unittest.TestCase):
     jwt: str
     app: Flask = None
+    client: FlaskClient
     database_name = "fsnd_capstone_test"
     database_path = "postgresql://postgres:postgres@localhost:5432/{}".format(database_name)
     db: SQLAlchemy = None
 
-    def __init__(self, methodName: str = ...):  # noqa
-        super().__init__(methodName)
+    def __init__(self, *args, **kwargs):  # noqa
+        super().__init__(*args, **kwargs)
 
-    def setUp(self):
-        """Define test variables and initialize app."""
         if MyTestCase.app is None:
             MyTestCase.app = create_app()
-        # Every test case uses its own client
         MyTestCase.client = self.app.test_client()
         if MyTestCase.db is None:
             setup_db(self.app, self.database_path)
             MyTestCase.db = db
+
         self.db.drop_all()
         self.db.create_all()
 
@@ -51,6 +50,11 @@ class MyTestCase(unittest.TestCase):
             release_date=date(2021, 3, 30).isoformat(),
         )
 
+    def setUp(self):
+        """Define test variables and initialize app.
+        Don't call db.drop_all() here, as it is causing hang on my machine
+        """
+
     def error_forbidden(self, method, url, json_data=None):
         res = getattr(self.client, method)(
             url, json=json_data,
@@ -62,8 +66,8 @@ class MyTestCase(unittest.TestCase):
 
 
 class CastingAssistantTest(MyTestCase):
-    def setUp(self):
-        super().setUp()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.jwt = ''  # TODO
 
     def test_get_actors(self):
@@ -121,15 +125,15 @@ class CastingAssistantTest(MyTestCase):
         self.error_forbidden('post', '/movies', self.sample_movie)
 
     def test_patch_actor(self):
-        self.error_forbidden('post', '/actors/1', {})
+        self.error_forbidden('patch', '/actors/1', {})
 
     def test_patch_movie(self):
-        self.error_forbidden('post', '/movies/1', {})
+        self.error_forbidden('patch', '/movies/1', {})
 
 
 class CastingDirectorTest(MyTestCase):
-    def setUp(self):
-        super().setUp()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.jwt = ''
 
     def test_get_actors(self):
@@ -181,7 +185,7 @@ class CastingDirectorTest(MyTestCase):
         self.assertEqual(res.status_code, 400)
 
     def test_post_movie(self):
-        self.error_forbidden('post', '/movies', self.sample_movie)
+        CastingAssistantTest.test_post_movie(self)  # noqa
 
     def test_patch_actor(self):
         a = Actor(**self.sample_actor).insert()
@@ -223,8 +227,8 @@ class CastingDirectorTest(MyTestCase):
 
 
 class ExecutiveProducerTest(MyTestCase):
-    def setUp(self):
-        super().setUp()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.jwt = ''
 
     def test_get_actors(self):
