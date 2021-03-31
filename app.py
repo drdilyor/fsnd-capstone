@@ -18,6 +18,56 @@ def create_app():
     def test_auth(payload):
         return {'message': 'granted', 'content': payload}
 
+    @app.route('/actors')
+    @requires_auth('read:actor')
+    def get_actors(_p):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/actors/<int:pk>')
+    @requires_auth('read:actor')
+    def get_actor(_p, pk: int):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/actors', methods=['POST'])
+    @requires_auth('add:actor')
+    def add_actor(_p):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/actors/<int:pk>', methods=['PATCH'])
+    @requires_auth('update:actor')
+    def update_actor(_p, pk: int):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/actors/<int:pk>', methods=['DELETE'])
+    @requires_auth('delete:actor')
+    def delete_actor(_p, pk: int):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/movies')
+    @requires_auth('read:movie')
+    def get_movies(_p):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/movies/<int:pk>')
+    @requires_auth('read:movie')
+    def get_movie(_p, pk: int):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/movies', methods=['POST'])
+    @requires_auth('add:movie')
+    def add_movie(_p):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/movies/<int:pk>', methods=['PATCH'])
+    @requires_auth('update:movie')
+    def update_movie(_p, pk: int):
+        return {'message': 'not implemented'}, 500
+
+    @app.route('/movies/<int:pk>', methods=['DELETE'])
+    @requires_auth('delete:movie')
+    def delete_movie(_p, pk: int):
+        return {'message': 'not implemented'}, 500
+
     @app.errorhandler(AuthError)
     def auth_error(e: AuthError):
         return {
