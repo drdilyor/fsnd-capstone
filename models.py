@@ -18,14 +18,18 @@ class DbMethods:
     def insert(self):
         db.session.add(self)
         db.session.commit()
+        db.session.close()
         return self
 
     def update(self):  # noqa
         db.session.commit()
+        db.session.close()
         return self
 
     def delete(self):
         db.session.delete(self)
+        db.session.commit()
+        db.session.close()
         return self
 
 
