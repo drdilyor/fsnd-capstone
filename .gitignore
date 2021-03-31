@@ -2,6 +2,9 @@
 **/__pycache__
 venv/
 
+db.sqlite3
+auth.jwks.json
+
 *.swp
 .idea
 .vscode

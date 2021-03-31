@@ -1,17 +1,24 @@
-import os
-from flask import Flask, request, abort, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, abort
 from flask_cors import CORS
 
-def create_app(test_config=None):
-  # create and configure the app
-  app = Flask(__name__)
-  CORS(app)
-  @app.route('/')
-  def index():
-      return {'message': 'hello world'}
+from auth import requires_auth, AuthError
 
-  return app
+
+def create_app():
+    # create and configure the app
+    app = Flask(__name__)
+    CORS(app)
+
+    @app.route('/')
+    def index():
+        return {'message': 'hello world'}
+
+    @app.route('/headers')
+    @requires_auth()
+    def test_auth(payload):
+        return {'message': 'granted', 'content': payload}
+
+    return app
 
 APP = create_app()
 
