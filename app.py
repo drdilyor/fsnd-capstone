@@ -1,8 +1,9 @@
 from flask import Flask, request, abort
 from flask_cors import CORS
+from sqlalchemy.exc import SQLAlchemyError
 
 from auth import requires_auth, AuthError
-from models import setup_db, Actor, Movie
+from models import setup_db, Actor, Movie, db
 
 
 def create_app():
@@ -40,17 +41,54 @@ def create_app():
     @app.route('/actors', methods=['POST'])
     @requires_auth('add:actor')
     def add_actor(_p):
-        return {'message': 'not implemented'}, 500
+        data = request.get_json()
+        try:
+            # sorry, broken validation for `gender`
+            a = Actor(
+                name=data.get('name') or abort(400),
+                age=data.get('age') or abort(400),
+                gender=data.get('gender'),
+                movie_id=data.get('movie_id'),
+            ).insert()
+            return {
+                'success': True,
+                'actor': a.format(),
+            }
+        except SQLAlchemyError:
+            abort(422)
+        finally:
+            db.session.close()
 
     @app.route('/actors/<int:pk>', methods=['PATCH'])
     @requires_auth('update:actor')
     def update_actor(_p, pk: int):
-        return {'message': 'not implemented'}, 500
+        data = request.get_json()
+        a = Actor.query.get(pk) or abort(404)
+        try:
+            for field in ('name', 'age', 'gender', 'movie_id'):
+                if field in data:
+                    setattr(a, field, data[field])
+            a.update()
+            return {
+                'success': True,
+                'actor': a.format(),
+            }
+        except SQLAlchemyError:
+            abort(422)
+        finally:
+            db.session.close()
 
     @app.route('/actors/<int:pk>', methods=['DELETE'])
     @requires_auth('delete:actor')
     def delete_actor(_p, pk: int):
-        return {'message': 'not implemented'}, 500
+        a = Actor.query.get(pk) or abort(404)
+        try:
+            a.delete()
+            return {'success': True}
+        except SQLAlchemyError:
+            abort(422)
+        finally:
+            db.session.close()
 
     @app.route('/movies')
     @requires_auth('read:movie')
