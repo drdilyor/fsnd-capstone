@@ -144,10 +144,10 @@ class CastingAssistantTest(MyTestCase):
         self.assertEqual(res.status_code, 404)
 
     def test_delete_actor(self):
-        self.error_forbidden('delete', '/movies/1')
+        self.error_forbidden('delete', '/actors/1')
 
     def test_delete_movie(self):
-        self.error_forbidden('delete', '/actors/1')
+        self.error_forbidden('delete', '/movies/1')
 
     def test_post_actor(self):
         self.error_forbidden('post', '/actors', self.sample_actor)
@@ -238,14 +238,14 @@ class CastingDirectorTest(MyTestCase):
         self.assertEqual(res.status_code, 404)
 
     def test_patch_movie(self):
-        a = Movie(**self.sample_movie).insert()
-        res = self.patch(f'/movies/{a.id}', json=dict(
+        m = Movie(**self.sample_movie).insert()
+        res = self.patch(f'/movies/{m.id}', json=dict(
             title='My new title'
         ))
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['movie']['name'], a.name)
+        self.assertEqual(data['movie']['title'], m.title)
 
     def test_patch_movie_404(self):
         mid = 999
@@ -292,7 +292,7 @@ class ExecutiveProducerTest(MyTestCase):
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
-        self.assertIsNone(Movie.get(mid))
+        self.assertIsNone(Movie.query.get(mid))
 
     def test_delete_movie_404(self):
         mid = 999
