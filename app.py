@@ -1,3 +1,5 @@
+from datetime import date
+
 from flask import Flask, request, abort
 from flask_cors import CORS
 from sqlalchemy.exc import SQLAlchemyError
@@ -110,17 +112,54 @@ def create_app():
     @app.route('/movies', methods=['POST'])
     @requires_auth('add:movie')
     def add_movie(_p):
-        return {'message': 'not implemented'}, 500
+        data = request.get_json()
+        try:
+            # sorry, broken validation for `gender`
+            a = Movie(
+                title=data.get('title') or abort(400),
+                release_date=date.fromisoformat(
+                    data.get('release_date') or abort(400)
+                ),
+            ).insert()
+            return {
+                'success': True,
+                'movie': a.format(),
+            }
+        except SQLAlchemyError:
+            abort(422)
+        finally:
+            db.session.close()
 
     @app.route('/movies/<int:pk>', methods=['PATCH'])
     @requires_auth('update:movie')
     def update_movie(_p, pk: int):
-        return {'message': 'not implemented'}, 500
+        data = request.get_json()
+        m = Movie.query.get(pk) or abort(404)
+        try:
+            for field in ('title', 'release_date'):
+                if field in data:
+                    setattr(m, field, data[field])
+            m.update()
+            return {
+                'success': True,
+                'movie': m.format(),
+            }
+        except SQLAlchemyError:
+            abort(422)
+        finally:
+            db.session.close()
 
     @app.route('/movies/<int:pk>', methods=['DELETE'])
     @requires_auth('delete:movie')
     def delete_movie(_p, pk: int):
-        return {'message': 'not implemented'}, 500
+        m = Movie.query.get(pk) or abort(404)
+        try:
+            m.delete()
+            return {'success': True}
+        except SQLAlchemyError:
+            abort(422)
+        finally:
+            db.session.close()
 
     @app.errorhandler(AuthError)
     def auth_error(e: AuthError):
