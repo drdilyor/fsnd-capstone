@@ -93,12 +93,19 @@ def create_app():
     @app.route('/movies')
     @requires_auth('read:movie')
     def get_movies(_p):
-        return {'message': 'not implemented'}, 500
+        """No pagination"""
+        return {
+            'success': True,
+            'movies': [m.format() for m in Movie.query.all()]
+        }
 
     @app.route('/movies/<int:pk>')
     @requires_auth('read:movie')
     def get_movie(_p, pk: int):
-        return {'message': 'not implemented'}, 500
+        return {
+            'success': True,
+            'movie': (Movie.query.get(pk) or abort(404)).format_long(),
+        }
 
     @app.route('/movies', methods=['POST'])
     @requires_auth('add:movie')
