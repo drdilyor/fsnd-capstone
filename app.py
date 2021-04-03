@@ -13,6 +13,13 @@ def create_app():
     app = Flask(__name__)
     CORS(app)
     setup_db(app)
+    @app.after_request
+    def after_request(response):
+        header = response.headers
+        header['Access-Control-Allow-Origin'] = '*'
+        header['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
+        header['Access-Control-Allow-Methods'] = '*'
+        return response
 
     @app.route('/')
     def index():
@@ -29,7 +36,7 @@ def create_app():
         """No pagination"""
         return {
             'success': True,
-            'actors': [a.format() for a in Actor.query.all()]
+            'actors': [a.format() for a in Actor.query.order_by(Actor.id).all()]
         }
 
     @app.route('/actors/<int:pk>')
@@ -50,7 +57,6 @@ def create_app():
                 name=data.get('name') or abort(400),
                 age=data.get('age') or abort(400),
                 gender=data.get('gender'),
-                movie_id=data.get('movie_id'),
             ).insert()
             return {
                 'success': True,
@@ -67,7 +73,7 @@ def create_app():
         data = request.get_json()
         a = Actor.query.get(pk) or abort(404)
         try:
-            for field in ('name', 'age', 'gender', 'movie_id'):
+            for field in ('name', 'age', 'gender'):
                 if field in data:
                     setattr(a, field, data[field])
             a.update()
@@ -106,7 +112,7 @@ def create_app():
     def get_movie(_p, pk: int):
         return {
             'success': True,
-            'movie': (Movie.query.get(pk) or abort(404)).format_long(),
+            'movie': (Movie.query.get(pk) or abort(404)).format(),
         }
 
     @app.route('/movies', methods=['POST'])

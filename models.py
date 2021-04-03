@@ -36,8 +36,6 @@ class Movie(DbMethods, db.Model):
     title = Column(String(80))
     release_date = Column(Date)
 
-    actors = relationship('Actor', backref='movie', lazy=True)
-
     def __init__(self, title: str, release_date: date): # noqa
         self.title = title
         self.release_date = release_date
@@ -55,24 +53,17 @@ class Movie(DbMethods, db.Model):
             release_date=self.release_date.isoformat(),
         )
 
-    def format_long(self):
-        return {**self.format(), **dict(
-            actors=[a.format() for a in self.actors]
-        )}
-
 
 class Actor(DbMethods, db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     age = Column(Integer)
     gender = Column(Integer)
-    movie_id = Column(Integer, ForeignKey('movie.id'), nullable=True)
 
-    def __init__(self, name: str, age: int, gender: int, movie_id: int): # noqa
+    def __init__(self, name: str, age: int, gender: int): # noqa
         self.name = name
         self.age = age
         self.gender = gender
-        self.movie_id = movie_id
 
     def __str__(self):
         return f"{self.__class__.__name__} {self.id} {self.name}"
@@ -90,5 +81,4 @@ class Actor(DbMethods, db.Model):
             name=self.name,
             age=self.age,
             gender=self.gender,
-            movie_id=self.movie_id,
         )
