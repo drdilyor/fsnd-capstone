@@ -72,7 +72,7 @@ flask run -p 8000
 
 I've written a handful of unittests. To execute all of them:
 ```shell script
-python src/test_app.py
+python test_app.py
 ```
 If you are getting 401 errors, please update the jwt tokens in `test_app.py`
 using the above credentials.
@@ -84,7 +84,7 @@ You can use curl or postman (get it from [here](https://getposman.com)).
 I recommend setting host and JWT as a variable so that you don't have to pass it to
 every request manually:
 ```shell script
-host=http://localhost:5000
+host=http://localhost:8000
 token=JWT_TOKEN_HERE
 ```
 

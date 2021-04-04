@@ -6,8 +6,8 @@ from flask import Flask
 from flask.testing import FlaskClient
 from flask_sqlalchemy import SQLAlchemy
 
-from .app import create_app
-from .models import setup_db, db, Actor, Movie
+from src.app import create_app
+from src.models import setup_db, db, Actor, Movie
 
 
 class MyTestCase(unittest.TestCase):

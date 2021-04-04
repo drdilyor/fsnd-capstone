@@ -23,7 +23,7 @@ SOFTWARE.
 import json
 import re
 
-from models import Movie, Actor
+from src.models import Movie, Actor
 
 __authors__ = ['drdilyor@outlook.com']
 
@@ -39,9 +39,10 @@ re_error_return = re.compile(r"return (.*?}), \d+", re.DOTALL)
 def snake_to_readable(n):
     return ' '.join(i.capitalize() if len(i) > 1 else i for i in n.split('_'))
 
+host = "http://localhost:8000"
 
 class Route:
-    host = "http://localhost:5000"
+    host = host
 
     def __init__(self, code):
         match = re_route.search(code)
@@ -145,6 +146,7 @@ class DocsGenerator:
     pre_file = 'docs-pre.md'
     post_file = 'docs-post.md'
     dont_edit = """> **Warning**: auto generated, do NOT edit it by hand! Instead make changes to docs-pre.md and docs-post.md files\n\n"""  # noqa
+    host = host
 
     def __init__(self):
         self.code = open(self.file).read()
@@ -164,10 +166,12 @@ class DocsGenerator:
         return (
             self.dont_edit +
             f"{open(self.pre_file).read()}\n"
-            "## API Docs\n\n"
-            + '\n'.join(r.generate() for r in self.routes) +
-            "\n\n## API Errors\n\n"
+            "## API Docs\n"
+            f"API is deployed to {host}\n\n"
+            + '\n'.join(r.generate() for r in self.routes)
+            + "\n\n## API Errors\n\n"
             + '\n'.join(e.generate() for e in self.errors)
+            + open(self.post_file).read()
         )
 
 

@@ -57,11 +57,12 @@ createdb fsnd-capstone
 ### Finally, *Start the server*
 ...using either gunicorn:
 ```shell script
-gunicorn app:APP
+gunicorn src:APP -b :8000
 ```
 ...or flask's development server:
 ```shell script
-flask run
+cd src
+flask run -p 8000
 ```
 
 ## Tests
@@ -73,7 +74,7 @@ flask run
 
 I've written a handful of unittests. To execute all of them:
 ```shell script
-python test_app.py
+python src/test_app.py
 ```
 If you are getting 401 errors, please update the jwt tokens in `test_app.py`
 using the above credentials.
@@ -85,7 +86,7 @@ You can use curl or postman (get it from [here](https://getposman.com)).
 I recommend setting host and JWT as a variable so that you don't have to pass it to
 every request manually:
 ```shell script
-host=http://localhost:5000
+host=http://localhost:8000
 token=JWT_TOKEN_HERE
 ```
 
@@ -119,6 +120,7 @@ The above command outputs like this:
 - **release_date** - when the movie is scheduled to a release
 
 ## API Docs
+API is deployed to http://localhost:8000
 
 ### Index
 #### Endpoint
@@ -126,7 +128,7 @@ The above command outputs like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/
+curl http://localhost:8000/
 ```
 
 The above command returns json structured like this:
@@ -145,7 +147,7 @@ This endpoint doesn't raise any errors
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/headers
+curl http://localhost:8000/headers
 ```
 
 The above command returns json structured like this:
@@ -164,7 +166,7 @@ This endpoint doesn't raise any errors
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/actors \
+curl http://localhost:8000/actors \
 -H "Authorization: Bearer $token"
 ```
 
@@ -194,7 +196,7 @@ This endpoint doesn't raise any errors
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/actors/1 \
+curl http://localhost:8000/actors/1 \
 -H "Authorization: Bearer $token"
 ```
 
@@ -221,7 +223,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/actors \
+curl http://localhost:8000/actors \
 -X POST \
 -H "Authorization: Bearer $token" \
 -H 'Content-Type: application/json' \
@@ -244,15 +246,15 @@ The above command returns json structured like this:
 #### Permission
 `add:actor`
 #### Raises
-- **[400](#400)**
 - **[422](#422)**
+- **[400](#400)**
 ### Update Actor
 #### Endpoint
 `PATCH /actors/<int:pk>`
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/actors/1 \
+curl http://localhost:8000/actors/1 \
 -X PATCH \
 -H "Authorization: Bearer $token" \
 -H 'Content-Type: application/json' \
@@ -283,7 +285,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/actors/1 \
+curl http://localhost:8000/actors/1 \
 -X DELETE \
 -H "Authorization: Bearer $token"
 ```
@@ -312,7 +314,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/movies \
+curl http://localhost:8000/movies \
 -H "Authorization: Bearer $token"
 ```
 
@@ -341,7 +343,7 @@ This endpoint doesn't raise any errors
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/movies/1 \
+curl http://localhost:8000/movies/1 \
 -H "Authorization: Bearer $token"
 ```
 
@@ -367,7 +369,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/movies \
+curl http://localhost:8000/movies \
 -X POST \
 -H "Authorization: Bearer $token" \
 -H 'Content-Type: application/json' \
@@ -389,15 +391,15 @@ The above command returns json structured like this:
 #### Permission
 `add:movie`
 #### Raises
-- **[400](#400)**
 - **[422](#422)**
+- **[400](#400)**
 ### Update Movie
 #### Endpoint
 `PATCH /movies/<int:pk>`
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/movies/1 \
+curl http://localhost:8000/movies/1 \
 -X PATCH \
 -H "Authorization: Bearer $token" \
 -H 'Content-Type: application/json' \
@@ -427,7 +429,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:5000/movies/1 \
+curl http://localhost:8000/movies/1 \
 -X DELETE \
 -H "Authorization: Bearer $token"
 ```
