@@ -1,6 +1,7 @@
 # Casting Agency 😃
 A simple application written in flask to manage actors and movies. You may also
 be interested in [frontend](https://github.com/drdilyor/fsnd-frontend)
+My last Project for Full Stack Nanodegree on Udacity :)
 
 ## Local setup
 > **Note**: These instructions are unix-oriented

@@ -3,6 +3,7 @@
 # Casting Agency 😃
 A simple application written in flask to manage actors and movies. You may also
 be interested in [frontend](https://github.com/drdilyor/fsnd-frontend)
+My last Project for Full Stack Nanodegree on Udacity :)
 
 ## Local setup
 > **Note**: These instructions are unix-oriented
@@ -294,8 +295,8 @@ The above command returns json structured like this:
 #### Permission
 `update:actor`
 #### Raises
-- **[404](#404)**
 - **[422](#422)**
+- **[404](#404)**
 ### Delete Actor
 #### Endpoint
 `DELETE /actors/<int:pk>`
@@ -323,8 +324,8 @@ The above command returns json structured like this:
 #### Permission
 `delete:actor`
 #### Raises
-- **[404](#404)**
 - **[422](#422)**
+- **[404](#404)**
 ### Get Movies
 #### Endpoint
 `GET /movies`
@@ -438,8 +439,8 @@ The above command returns json structured like this:
 #### Permission
 `update:movie`
 #### Raises
-- **[404](#404)**
 - **[422](#422)**
+- **[404](#404)**
 ### Delete Movie
 #### Endpoint
 `DELETE /movies/<int:pk>`
@@ -466,8 +467,8 @@ The above command returns json structured like this:
 #### Permission
 `delete:movie`
 #### Raises
-- **[404](#404)**
 - **[422](#422)**
+- **[404](#404)**
 
 ## API Errors
 
