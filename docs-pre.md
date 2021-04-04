@@ -55,11 +55,12 @@ createdb fsnd-capstone
 ### Finally, *Start the server*
 ...using either gunicorn:
 ```shell script
-gunicorn app:APP
+gunicorn src:APP -b :8000
 ```
 ...or flask's development server:
 ```shell script
-flask run
+cd src
+flask run -p 8000
 ```
 
 ## Tests
@@ -71,7 +72,7 @@ flask run
 
 I've written a handful of unittests. To execute all of them:
 ```shell script
-python test_app.py
+python src/test_app.py
 ```
 If you are getting 401 errors, please update the jwt tokens in `test_app.py`
 using the above credentials.

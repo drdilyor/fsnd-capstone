@@ -141,7 +141,7 @@ class ErrorHandler:
 
 
 class DocsGenerator:
-    file = 'app.py'
+    file = 'src/app.py'
     pre_file = 'docs-pre.md'
     post_file = 'docs-post.md'
     dont_edit = """> **Warning**: auto generated, do NOT edit it by hand! Instead make changes to docs-pre.md and docs-post.md files\n\n"""  # noqa

@@ -4,8 +4,8 @@ from flask import Flask, request, abort
 from flask_cors import CORS
 from sqlalchemy.exc import SQLAlchemyError
 
-from auth import requires_auth, AuthError
-from models import setup_db, Actor, Movie, db
+from .auth import requires_auth, AuthError
+from .models import setup_db, Actor, Movie, db
 
 # !!WARN: NEVER PUT BLANK LINES INSIDE FUNCTIONS
 # ..INFO: YOU CAN PUT A HASH (#) INSTEAD
