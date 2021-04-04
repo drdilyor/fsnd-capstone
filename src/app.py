@@ -113,7 +113,7 @@ def create_app():
         """No pagination"""
         return {
             'success': True,
-            'movies': [m.format() for m in Movie.query.all()]
+            'movies': [m.format() for m in Movie.query.order_by(Movie.id).all()]
         }
 
     @app.route('/movies/<int:pk>')
