@@ -1,4 +1,5 @@
 from datetime import date
+from sys import exc_info
 
 from flask import Flask, request, abort
 from flask_cors import CORS
@@ -68,6 +69,7 @@ def create_app():
                 'actor': a.format(),
             }
         except SQLAlchemyError:
+            print(exc_info())
             abort(422)
         finally:
             db.session.close()
@@ -87,6 +89,7 @@ def create_app():
                 'actor': a.format(),
             }
         except SQLAlchemyError:
+            print(exc_info())
             abort(422)
         finally:
             db.session.close()
@@ -99,6 +102,7 @@ def create_app():
             a.delete()
             return {'success': True}
         except SQLAlchemyError:
+            print(exc_info())
             abort(422)
         finally:
             db.session.close()
@@ -137,6 +141,7 @@ def create_app():
                 'movie': a.format(),
             }
         except SQLAlchemyError:
+            print(exc_info())
             abort(422)
         finally:
             db.session.close()
@@ -156,6 +161,7 @@ def create_app():
                 'movie': m.format(),
             }
         except SQLAlchemyError:
+            print(exc_info())
             abort(422)
         finally:
             db.session.close()
@@ -168,6 +174,7 @@ def create_app():
             m.delete()
             return {'success': True}
         except SQLAlchemyError:
+            print(exc_info())
             abort(422)
         finally:
             db.session.close()
