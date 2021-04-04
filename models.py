@@ -53,6 +53,21 @@ class Movie(DbMethods, db.Model):
             release_date=self.release_date.isoformat(),
         )
 
+    @classmethod
+    def example_in(cls):
+        return dict(
+            title='Here goes rainbow...',
+            release_date=date(2022, 5, 1).isoformat(),
+        )
+
+    @classmethod
+    def example_out(cls):
+        return dict(
+            id=1,
+            title='My example movie',
+            release_date=date(2022, 5, 1).isoformat(),
+        )
+
 
 class Actor(DbMethods, db.Model):
     id = Column(Integer, primary_key=True)
@@ -81,4 +96,21 @@ class Actor(DbMethods, db.Model):
             name=self.name,
             age=self.age,
             gender=self.gender,
+        )
+
+    @classmethod
+    def example_in(cls):
+        return dict(
+            name='Axad Qayyum',
+            age=42,
+            gender=0,
+        )
+
+    @classmethod
+    def example_out(cls):
+        return dict(
+            id=1,
+            name='Axad Qayyum',
+            age=42,
+            gender=0,
         )

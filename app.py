@@ -7,6 +7,11 @@ from sqlalchemy.exc import SQLAlchemyError
 from auth import requires_auth, AuthError
 from models import setup_db, Actor, Movie, db
 
+# !!WARN: NEVER PUT BLANK LINES INSIDE FUNCTIONS
+# ..INFO: YOU CAN PUT A HASH (#) INSTEAD
+# !!WARN: ALWAYS PUT AT LEAST A SINGLE BLANK LINE BETWEEN FUNCTIONS
+# ..INFO: THIS IS DUE TO HOW DOCS GENERATOR WORKS
+
 
 def create_app():
     # create and configure the app
@@ -27,7 +32,7 @@ def create_app():
 
     @app.route('/headers')
     @requires_auth()
-    def test_auth(payload):
+    def get_jwt_contents(payload):
         return {'message': 'granted', 'content': payload}
 
     @app.route('/actors')
@@ -176,6 +181,7 @@ def create_app():
 
     @app.errorhandler(400)
     def bad_request(_error):
+        """Raised if some fields are missing in POST or PATCH requests or if they of invalid type"""
         return {
                    'success': False,
                    'error': 400,
@@ -183,7 +189,8 @@ def create_app():
                }, 400
 
     @app.errorhandler(403)
-    def not_found(_error):
+    def forbidden(_error):
+        """Raised if you don't have enough permissions"""
         return {
                    'success': False,
                    'error': 403,
@@ -192,6 +199,7 @@ def create_app():
 
     @app.errorhandler(404)
     def not_found(_error):
+        """Raised if the given resource cannot be found"""
         return {
                    'success': False,
                    'error': 404,
@@ -200,6 +208,7 @@ def create_app():
 
     @app.errorhandler(422)
     def unprocessable(_error):
+        """Raised if database error occurred, e.g. foreign key constraint failed"""
         return {
                    'success': False,
                    'error': 422,
@@ -208,6 +217,7 @@ def create_app():
 
     @app.errorhandler(500)
     def internal_server_error(_error):
+        """Raised if the server failed to fulfill the request"""
         return {
                    'success': False,
                    'error': 500,
