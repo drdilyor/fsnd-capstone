@@ -33,13 +33,11 @@ class MyTestCase(unittest.TestCase):
 
         self.sample_actor = dict(
             name='My actor',
-            movie_id=499,
             age=4,
             gender=0,
         )
         self.bad_actor = dict(
             name='',  # oops, empty name
-            movie_id=499,
             age=42,
             gender=0,
         )
@@ -98,7 +96,7 @@ class MyTestCase(unittest.TestCase):
 class CastingAssistantTest(MyTestCase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZKeTlHd3BuTE5NUzRkS2pqR3FZeiJ9.eyJpc3MiOiJodHRwczovL2RyZGlseW9yLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDYzZTdhYzk4OWMwNTAwNjkxNWU2NGQiLCJhdWQiOiJmc25kLWNhcHN0b25lIiwiaWF0IjoxNjE3MjQ5NDcyLCJleHAiOjE2MTczMzU4NzIsImF6cCI6IkFtN1ZKSHcyNnZOZUdvbmtnRDNYYnhNQnZjcWJzeEJVIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJyZWFkOmFjdG9yIiwicmVhZDptb3ZpZSJdfQ.ARUfDKm2gV3BMwX9AZHwXL7roE8AvEqthzQxyTDuJL4xSN7JomfFx6O6wzYF5wrviXuPFQIQmD-VucPZvvEMqrqD5naKbDLB4dOZyPH-SMQAb5HI_NT983riUra8n95E_hv2JW04PIZKdBtAJJwhgX_aKGpCB-XtoQSPpTybqLC72ofv0QSFa5ZY6lxIF5Yq5w9EksR3PN2ifanKcPUauKCDKsfo1PkCxNbxZvIMUbACn5ZSDZM5jEwdsFZ-YG8yX2M0G5z-fBxxu2UjB8LR_I5fwAREBUEac2kdJ3AMG2G92K7-V9JUEgX7NcBL0ClBWWjGFPxiWRmuxf2xklWIbA'  # noqa
+        self.jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZKeTlHd3BuTE5NUzRkS2pqR3FZeiJ9.eyJpc3MiOiJodHRwczovL2RyZGlseW9yLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDYzZTdhYzk4OWMwNTAwNjkxNWU2NGQiLCJhdWQiOiJmc25kLWNhcHN0b25lIiwiaWF0IjoxNjE3NTM3NjQxLCJleHAiOjE2MTc2MjQwNDEsImF6cCI6IkFtN1ZKSHcyNnZOZUdvbmtnRDNYYnhNQnZjcWJzeEJVIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJyZWFkOmFjdG9yIiwicmVhZDptb3ZpZSJdfQ.yeG6u1S7OGqPKL2mQJF2p2f1sbjHvGY_kUjH2Xm6B0zjoNGta7mAERA03dG2bQBfSBFR8EDIv6e0VobIu_wnR7UshCxYZaiFaNa_mbZII8Is30SzFhXkpdltFPVL-DDT-1lvGc8FJp7RjsMCIcHr33Szb859NOXa9z4-7O_pwd3CAf9-Idw_RLChB4Uv88d9rM3XDiNqG9Usn5o8l_faJ1P6rtMjcyM2u2u8WWDTXPTbogPvm0jR7vcKVcRnjw7xrxYy_HEcBOVUabFE5HcbnWttoM92yjKngvejQj2C7RvX6Yx8lFZbgaw6-DGxv-9OPvmdZ3fHj17jkKHmwKcGlg'  # noqa
 
     def test_get_actors(self):
         res = self.get('/actors')
@@ -135,7 +133,6 @@ class CastingAssistantTest(MyTestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['movie']['title'], m.title)
-        self.assertIsInstance(data['movie']['actors'], list)
 
     def test_get_movie_404(self):
         mid = 999
@@ -165,7 +162,7 @@ class CastingAssistantTest(MyTestCase):
 class CastingDirectorTest(MyTestCase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZKeTlHd3BuTE5NUzRkS2pqR3FZeiJ9.eyJpc3MiOiJodHRwczovL2RyZGlseW9yLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDYzZTg4ZGNiZjUzOTAwNjlkNjQ2MTAiLCJhdWQiOiJmc25kLWNhcHN0b25lIiwiaWF0IjoxNjE3MjQ5NDY3LCJleHAiOjE2MTczMzU4NjcsImF6cCI6IkFtN1ZKSHcyNnZOZUdvbmtnRDNYYnhNQnZjcWJzeEJVIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJhZGQ6YWN0b3IiLCJkZWxldGU6YWN0b3IiLCJyZWFkOmFjdG9yIiwicmVhZDptb3ZpZSIsInVwZGF0ZTphY3RvciIsInVwZGF0ZTptb3ZpZSJdfQ.0inYQRqOpBlL0Q8vSo9Vn3JpftFzBCwhtdcFcewV79yalxr6pRpnlQT_f6rEh2jJF3tOqeHkoZRo5RtL9sv9UBVFS_BBGyfOyIoDR-FVRV2l-A6fCR0xXS_TlJsT0L5ijqBVbpkEhMs7yklT-XdhGMSnc2kN9kVhB4xqvyaP9xtqpK_qjLBnmjXQNSYP3KKdf1q6kBDmCB1VUwSzNqw95Axu0lV77n5fuTXYvKr1LqcXQRlVmXW1xmyW7sbaTm5cyjt0iyfnzYA8115oq0opFuIVXuMlnHx8Nx2_X5P90-JK2A3Qy7AGvo0Y0i1GOjwOc4d0YHfon22lGPEfpRoDWg'  # noqa
+        self.jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZKeTlHd3BuTE5NUzRkS2pqR3FZeiJ9.eyJpc3MiOiJodHRwczovL2RyZGlseW9yLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDYzZTg4ZGNiZjUzOTAwNjlkNjQ2MTAiLCJhdWQiOiJmc25kLWNhcHN0b25lIiwiaWF0IjoxNjE3NTM3Njk2LCJleHAiOjE2MTc2MjQwOTYsImF6cCI6IkFtN1ZKSHcyNnZOZUdvbmtnRDNYYnhNQnZjcWJzeEJVIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJhZGQ6YWN0b3IiLCJkZWxldGU6YWN0b3IiLCJyZWFkOmFjdG9yIiwicmVhZDptb3ZpZSIsInVwZGF0ZTphY3RvciIsInVwZGF0ZTptb3ZpZSJdfQ.iMZTG9AQpZmZIymHsfsqKXblK9Cy4ehGgwGK0oadciLVT5AgY-6VNU_P9sTeJfnVF7YiRGs33bWNVAMviHRNL2NVxgJawWDZnmetqUr6-gHk5PDFBfo3tMyHv2n7mEmjoaPn5cheNjtVd9kUUciHSxhCP0kfn2b9HLosDUDoPc9fs5tmB_ihZo7waqf2_PGcbQIzAA3vwMNBSD-NiHzidZm08XNUJPgU3b5XPNM_4hEgNM5ovFal1Tj-HIz0jtOhGOSGuzrBd_aIgjTr66icz36IdOrbKdUkx-HyGazPCI8_Lrno1CbSv-YDxIp41cVXqDsbWcMlZaU6gZWhIwkHxw'  # noqa
 
     def test_get_actors(self):
         CastingAssistantTest.test_get_actors(self)  # noqa
@@ -260,7 +257,7 @@ class CastingDirectorTest(MyTestCase):
 class ExecutiveProducerTest(MyTestCase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZKeTlHd3BuTE5NUzRkS2pqR3FZeiJ9.eyJpc3MiOiJodHRwczovL2RyZGlseW9yLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDYzZTkxNDdmNzU0MzAwNzBiOGFmNTEiLCJhdWQiOiJmc25kLWNhcHN0b25lIiwiaWF0IjoxNjE3MjQ5NDcwLCJleHAiOjE2MTczMzU4NzAsImF6cCI6IkFtN1ZKSHcyNnZOZUdvbmtnRDNYYnhNQnZjcWJzeEJVIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJhZGQ6YWN0b3IiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3IiLCJkZWxldGU6bW92aWUiLCJyZWFkOmFjdG9yIiwicmVhZDptb3ZpZSIsInVwZGF0ZTphY3RvciIsInVwZGF0ZTptb3ZpZSJdfQ.EMksRjrJfjXZZwXtO3PcWojlgnRnVcxIfyB6TB1YfdbJ5pv9gNNV1dlsRN7_AL3ZyJbVgvnJiKudxXHugC-QFA4Mg9j1_IkW-f1pXuCvpidG7095KqRrtiWWn8st3TBuai9g3gD4MdOCV-IAjjEGOSlM_TqVCsugJOU491StSverckP0yp4LSkTzZjk8WH7aXKfYQtLGkovbtVBw4_2AgiDaxLeeQXFLo0N14gTEymcZQFNB2zBJrF_6wOQR2J7gl_IdZmkmldIS6bUvO1wgVhO6CNvGDuqWVAX5ajFVjQYzB5ZkePnksRdod_PLz7o47ruPBkUo8RFHEDtPyLzIrw'  # noqa
+        self.jwt = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InZKeTlHd3BuTE5NUzRkS2pqR3FZeiJ9.eyJpc3MiOiJodHRwczovL2RyZGlseW9yLnVzLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MDYzZTkxNDdmNzU0MzAwNzBiOGFmNTEiLCJhdWQiOiJmc25kLWNhcHN0b25lIiwiaWF0IjoxNjE3NTM3NzI5LCJleHAiOjE2MTc2MjQxMjksImF6cCI6IkFtN1ZKSHcyNnZOZUdvbmtnRDNYYnhNQnZjcWJzeEJVIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJhZGQ6YWN0b3IiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3IiLCJkZWxldGU6bW92aWUiLCJyZWFkOmFjdG9yIiwicmVhZDptb3ZpZSIsInVwZGF0ZTphY3RvciIsInVwZGF0ZTptb3ZpZSJdfQ.LJWO5OFWqDNwrChvP6v-zPW3hqtRTDXgb-hkqHeXv-jUxFtbFU2fOj8xK4jVlSlgrd5drgvRLY1YcoudxnHDjxKZML3k5Dzc4Rb9bqhHWCUa92UIH_1pzkoNCJjJGQOWcYM0viUy610nurx1Gpy9ygm8x1Wr-aAhI7_acGH3SMlUQmG661zhfs7OIpcxEVseQgAnuH4H7D7dKD1oqxEs3bq6HqJyhwdYYAz6KMPk3uC5U9sVJQ7x84eY47uHYmtOQs3eaEqXGCkYRknFF-kG8uM4ppbE7O7sDk-WVJQB1uJ7Zfh45kyMDrDejtIMtGnYFlMwTLxupkS_SInziIZb0Q'  # noqa
 
     def test_get_actors(self):
         CastingDirectorTest.test_get_actors(self)  # noqa
