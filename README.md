@@ -530,4 +530,6 @@ Internal Server Error: Raised if the server failed to fulfill the request
   "message": "internal server error"
 }
 ```
+# A bit about the Author
+This project is completed by **Dilyorbek Valijonov** (drdilyor). An **UZBEK CODER** 🇺🇿😄
 
