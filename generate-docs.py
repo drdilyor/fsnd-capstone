@@ -39,7 +39,8 @@ re_error_return = re.compile(r"return (.*?}), \d+", re.DOTALL)
 def snake_to_readable(n):
     return ' '.join(i.capitalize() if len(i) > 1 else i for i in n.split('_'))
 
-host = "http://localhost:8000"
+
+host = "https://drdilyor-capstone.herokuapp.com"
 
 class Route:
     host = host

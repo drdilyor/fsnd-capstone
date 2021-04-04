@@ -137,7 +137,7 @@ The above command outputs like this:
 - **release_date** - when the movie is scheduled to a release
 
 ## API Docs
-API is deployed to http://localhost:8000
+API is deployed to https://drdilyor-capstone.herokuapp.com
 
 ### Index
 #### Endpoint
@@ -145,7 +145,7 @@ API is deployed to http://localhost:8000
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/
+curl https://drdilyor-capstone.herokuapp.com/
 ```
 
 The above command returns json structured like this:
@@ -164,7 +164,7 @@ This endpoint doesn't raise any errors
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/headers
+curl https://drdilyor-capstone.herokuapp.com/headers
 ```
 
 The above command returns json structured like this:
@@ -183,7 +183,7 @@ This endpoint doesn't raise any errors
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/actors \
+curl https://drdilyor-capstone.herokuapp.com/actors \
 -H "Authorization: Bearer $token"
 ```
 
@@ -213,7 +213,7 @@ This endpoint doesn't raise any errors
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/actors/1 \
+curl https://drdilyor-capstone.herokuapp.com/actors/1 \
 -H "Authorization: Bearer $token"
 ```
 
@@ -240,7 +240,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/actors \
+curl https://drdilyor-capstone.herokuapp.com/actors \
 -X POST \
 -H "Authorization: Bearer $token" \
 -H 'Content-Type: application/json' \
@@ -271,7 +271,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/actors/1 \
+curl https://drdilyor-capstone.herokuapp.com/actors/1 \
 -X PATCH \
 -H "Authorization: Bearer $token" \
 -H 'Content-Type: application/json' \
@@ -294,15 +294,15 @@ The above command returns json structured like this:
 #### Permission
 `update:actor`
 #### Raises
-- **[422](#422)**
 - **[404](#404)**
+- **[422](#422)**
 ### Delete Actor
 #### Endpoint
 `DELETE /actors/<int:pk>`
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/actors/1 \
+curl https://drdilyor-capstone.herokuapp.com/actors/1 \
 -X DELETE \
 -H "Authorization: Bearer $token"
 ```
@@ -323,15 +323,15 @@ The above command returns json structured like this:
 #### Permission
 `delete:actor`
 #### Raises
-- **[422](#422)**
 - **[404](#404)**
+- **[422](#422)**
 ### Get Movies
 #### Endpoint
 `GET /movies`
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/movies \
+curl https://drdilyor-capstone.herokuapp.com/movies \
 -H "Authorization: Bearer $token"
 ```
 
@@ -360,7 +360,7 @@ This endpoint doesn't raise any errors
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/movies/1 \
+curl https://drdilyor-capstone.herokuapp.com/movies/1 \
 -H "Authorization: Bearer $token"
 ```
 
@@ -386,7 +386,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/movies \
+curl https://drdilyor-capstone.herokuapp.com/movies \
 -X POST \
 -H "Authorization: Bearer $token" \
 -H 'Content-Type: application/json' \
@@ -416,7 +416,7 @@ The above command returns json structured like this:
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/movies/1 \
+curl https://drdilyor-capstone.herokuapp.com/movies/1 \
 -X PATCH \
 -H "Authorization: Bearer $token" \
 -H 'Content-Type: application/json' \
@@ -438,15 +438,15 @@ The above command returns json structured like this:
 #### Permission
 `update:movie`
 #### Raises
-- **[422](#422)**
 - **[404](#404)**
+- **[422](#422)**
 ### Delete Movie
 #### Endpoint
 `DELETE /movies/<int:pk>`
 
 #### Sample request
 ```shell script
-curl http://localhost:8000/movies/1 \
+curl https://drdilyor-capstone.herokuapp.com/movies/1 \
 -X DELETE \
 -H "Authorization: Bearer $token"
 ```
@@ -466,8 +466,8 @@ The above command returns json structured like this:
 #### Permission
 `delete:movie`
 #### Raises
-- **[422](#422)**
 - **[404](#404)**
+- **[422](#422)**
 
 ## API Errors
 
