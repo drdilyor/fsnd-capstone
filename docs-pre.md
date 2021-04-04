@@ -63,12 +63,29 @@ cd src
 flask run -p 8000
 ```
 
-## Tests
+## Role based access control (RBAC)
+This project defines 3 roles:
+- **Casting Assistant**:
+  - `read:actor`
+  - `read:movie`
+- **Casting Director**:
+  - All permissions of Casting Assistant
+  - `add:actor`
+  - `update:actor`
+  - `delete:actor`
+  - `update:movie`
+- **Executive Producer**:
+  - All permissions of Casting Director
+  - `add:movie`
+  - `delete:movie`
+
 > Auth0 credentials <br>
 > email: **assistant@drdilyor-fsnd.com** <br>
 > email: **director@drdilyor-fsnd.com** <br>
 > email: **producer@drdilyor-fsnd.com** <br>
 > password: **26D6udjbvWK5fXT**
+
+## Tests
 
 I've written a handful of unittests. To execute all of them:
 ```shell script

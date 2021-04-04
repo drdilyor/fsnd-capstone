@@ -65,16 +65,33 @@ cd src
 flask run -p 8000
 ```
 
-## Tests
+## Role based access control (RBAC)
+This project defines 3 roles:
+- **Casting Assistant**:
+  - `read:actor`
+  - `read:movie`
+- **Casting Director**:
+  - All permissions of Casting Assistant
+  - `add:actor`
+  - `update:actor`
+  - `delete:actor`
+  - `update:movie`
+- **Executive Producer**:
+  - All permissions of Casting Director
+  - `add:movie`
+  - `delete:movie`
+
 > Auth0 credentials <br>
 > email: **assistant@drdilyor-fsnd.com** <br>
 > email: **director@drdilyor-fsnd.com** <br>
 > email: **producer@drdilyor-fsnd.com** <br>
 > password: **26D6udjbvWK5fXT**
 
+## Tests
+
 I've written a handful of unittests. To execute all of them:
 ```shell script
-python src/test_app.py
+python test_app.py
 ```
 If you are getting 401 errors, please update the jwt tokens in `test_app.py`
 using the above credentials.
@@ -246,8 +263,8 @@ The above command returns json structured like this:
 #### Permission
 `add:actor`
 #### Raises
-- **[422](#422)**
 - **[400](#400)**
+- **[422](#422)**
 ### Update Actor
 #### Endpoint
 `PATCH /actors/<int:pk>`
@@ -277,8 +294,8 @@ The above command returns json structured like this:
 #### Permission
 `update:actor`
 #### Raises
-- **[404](#404)**
 - **[422](#422)**
+- **[404](#404)**
 ### Delete Actor
 #### Endpoint
 `DELETE /actors/<int:pk>`
@@ -306,8 +323,8 @@ The above command returns json structured like this:
 #### Permission
 `delete:actor`
 #### Raises
-- **[404](#404)**
 - **[422](#422)**
+- **[404](#404)**
 ### Get Movies
 #### Endpoint
 `GET /movies`
@@ -391,8 +408,8 @@ The above command returns json structured like this:
 #### Permission
 `add:movie`
 #### Raises
-- **[422](#422)**
 - **[400](#400)**
+- **[422](#422)**
 ### Update Movie
 #### Endpoint
 `PATCH /movies/<int:pk>`
@@ -421,8 +438,8 @@ The above command returns json structured like this:
 #### Permission
 `update:movie`
 #### Raises
-- **[404](#404)**
 - **[422](#422)**
+- **[404](#404)**
 ### Delete Movie
 #### Endpoint
 `DELETE /movies/<int:pk>`
@@ -449,8 +466,8 @@ The above command returns json structured like this:
 #### Permission
 `delete:movie`
 #### Raises
-- **[404](#404)**
 - **[422](#422)**
+- **[404](#404)**
 
 ## API Errors
 
